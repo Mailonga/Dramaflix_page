@@ -24,4 +24,8 @@
         @apply flex items-center gap-x-2 rounded px-4 py-1 text-sm font-semibold transition hover:opacity-75 md:py-2
         md:px-5 md:text-xl;
     }
+
+    .logpass{
+        @apply w-full rounded bg-[#272727] px-5 py-3.5 placeholder-[#535353];
+    }
 }
