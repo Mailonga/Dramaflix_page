@@ -26,6 +26,7 @@
     }
 
     .logpass{
-        @apply w-full rounded bg-[#272727] px-5 py-3.5 placeholder-[#535353];
+        @apply w-full rounded bg-[#272727] px-5 py-3.5 placeholder-[#363636] outline-none
+        focus:bg-[#575757];
     }
 }

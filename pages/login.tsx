@@ -1,7 +1,26 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
+import {SubmitHandler, useForm} from 'react-hook-form'
+
+interface Inputs{
+     email: string
+     password: string
+}
 
 function Login() {
+
+     const [login, setlogin] = useState(false)
+
+     const { 
+          register, 
+          handleSubmit, 
+          watch, 
+          formState: { errors } 
+     } = useForm<Inputs>();
+
+     const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
      return (
           <div className='relative flex h-screen w-screen flex-col bg-black
           md:items-center md:justify-center md:bg-transparent'>
@@ -17,19 +36,30 @@ function Login() {
                     objectFit="cover"
                />
 
-               <h1 className="absolute left-2 top-2 text-xl md:left-10 md:top-6 text-red-600 font-bold 
+               <h1 className="absolute left-2 top-2 text-md md:left-10 md:top-6 text-red-600 font-bold 
                uppercase px-2 cursor-pointer object-contain md:text-3xl">Dramaflix</h1>
 
-               <form className='relative mt-24 rounded space-y-6 bg-black/70 py-10 px-6 md:mt-0 md:max-w-md md:px-14'>
-                   <h1>Sign In</h1>
+               <form
+               onSubmit={handleSubmit(onSubmit)} 
+               className='relative mt-24 rounded space-y-6 bg-black/70 py-10 px-6 md:mt-0 md:max-w-md md:px-14'>
+                   <h1 className='text-4xl font-semibold text-center'>Entrar</h1>
 
                    <div className='space-y-2'>
-                    <label>
+                    <label className='inline-block w-full'>
                          <input type="email" placeholder="E-mail" className='logpass'/>
                     </label>
-                    <label>
+                    <label className='inline-block w-full'>
                          <input type="password" placeholder='Senha' className='logpass'/>
                     </label>
+                   </div>
+
+                   <button className='w-full rounded bg-[#e50914] py-3 font-semibold'>
+                    Entrar
+                   </button>
+
+                   <div className='text-[gray]'>
+                    Não é Assinante DramaFlix?{' '}
+                    <button type="submit" className='text-white hover:underline hover:text-[#e50914]'>Assine Agora</button>
                    </div>
                </form>
           </div>
