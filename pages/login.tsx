@@ -1,7 +1,9 @@
+import { async } from '@firebase/util'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import {SubmitHandler, useForm} from 'react-hook-form'
+import useAuth from '../Hooks/useAuth'
 
 interface Inputs{
      email: string
@@ -10,16 +12,22 @@ interface Inputs{
 
 function Login() {
 
-     const [login, setlogin] = useState(false)
+     const [login, setLogin] = useState(false)
+     const { signIn, signUp} = useAuth()
 
      const { 
           register, 
           handleSubmit, 
-          watch, 
           formState: { errors } 
      } = useForm<Inputs>();
 
-     const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+     const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
+          if(login){
+              await signIn(email, password)
+          }else{
+               await signUp(email, password)
+          }
+     };
 
      return (
           <div className='relative flex h-screen w-screen flex-col bg-black
@@ -46,20 +54,41 @@ function Login() {
 
                    <div className='space-y-2'>
                     <label className='inline-block w-full'>
-                         <input type="email" placeholder="E-mail" className='logpass'/>
+                         <input 
+                         type="email" 
+                         placeholder="E-mail" 
+                         className={`logpass ${
+                              errors.email && 'border-b-2 border-red-700'
+                            }`}
+                         {...register('email', {required: true})}
+                         />
+                         {errors.email && (<p className="p-1 text-[13px] font-light  text-red-700">Digite o E-mail</p>)}
                     </label>
                     <label className='inline-block w-full'>
-                         <input type="password" placeholder='Senha' className='logpass'/>
+                         <input 
+                         type="password" 
+                         placeholder='Senha' 
+                         className={`logpass ${
+                              errors.password && 'border-b-2 border-red-700'
+                            }`}
+                         {...register('password', {required: true})}
+                         />
+                         {errors.password && (<p className="p-1 text-[13px] font-light  text-red-700">Senha Inválida</p>)}
                     </label>
                    </div>
 
-                   <button className='w-full rounded bg-[#e50914] py-3 font-semibold'>
+                   <button 
+                   className='w-full rounded bg-[#e50914] py-3 font-semibold'
+                   onClick={() => setLogin(true)}>
                     Entrar
                    </button>
 
                    <div className='text-[gray]'>
                     Não é Assinante DramaFlix?{' '}
-                    <button type="submit" className='text-white hover:underline hover:text-[#e50914]'>Assine Agora</button>
+                    <button type="submit" className='text-white hover:underline hover:text-[#e50914]'
+                    onClick={() => setLogin(false)}>
+                         Assine Agora
+                    </button>
                    </div>
                </form>
           </div>
