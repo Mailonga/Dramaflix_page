@@ -3,9 +3,11 @@ import { HiOutlineBell } from "react-icons/hi";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import useAuth from "../Hooks/useAuth";
 
 export function Header(){
     const [Scroll, setScroll] = useState(false)
+    const {logout} = useAuth()
 
     useEffect(() => {
        const hScroll = () =>{
@@ -38,10 +40,13 @@ export function Header(){
            <HiOutlineSearch className="cursor-pointer hover:text-slate-100/90 hidden w-4 h-4 sm:inline md:w-6 md:h-6 md:hover:text-slate-100/70"/>  
            <p className="cursor-pointer hidden hover:text-slate-100/90 lg:inline md:text-lg">Infantis</p>
            <HiOutlineBell className="cursor-pointer hover:text-slate-100/90 w-4 h-4 md:w-6 md:h-6 md:hover:text-slate-100/70"/>
-           <Link href="/conta">
-              <img src="https://rb.gy/g1pwyx" alt=""
+           {/* <Link href="/conta"> */}
+              <img 
+              src="https://rb.gy/g1pwyx" 
+              alt=""
+              onClick={logout}
               className="cursor-pointer rounded h-5 w-5 md:w-6 md:h-6" />
-           </Link>  
+           {/* </Link>   */}
         </div>
     </header>
   )

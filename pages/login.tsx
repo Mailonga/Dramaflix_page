@@ -13,7 +13,7 @@ interface Inputs{
 function Login() {
 
      const [login, setLogin] = useState(false)
-     const { signIn, signUp} = useAuth()
+     const { signIn, signUp } = useAuth()
 
      const { 
           register, 
