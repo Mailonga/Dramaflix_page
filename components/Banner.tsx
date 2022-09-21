@@ -4,6 +4,8 @@ import {baseUrl} from '../constants/movie'
 import Image from 'next/image'
 import { FaPlay } from "react-icons/fa";
 import { HiOutlineInformationCircle } from "react-icons/hi";
+import { useRecoilState } from "recoil";
+import { modalState, movieState } from "../Atoms/modalAtom";
 
 interface Props {
     netflixOriginals: Movie[]
@@ -11,6 +13,9 @@ interface Props {
 
 function Banner({ netflixOriginals }: Props) {
     const [movie, setMovie] = useState<Movie | null>(null)
+    const [showModal, setShowModal] = useRecoilState(modalState)
+    const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
+
 
     useEffect(() => {
         setMovie(
@@ -35,7 +40,11 @@ function Banner({ netflixOriginals }: Props) {
             <div className="flex space-x-3">
                 <button className="btnBanner bg-white text-black">
                     <FaPlay className="h-4 w-4 text-black md:h-6 md:w-6 "/>Play</button>
-                <button className="btnBanner bg-[gray]/70"><HiOutlineInformationCircle className="h-4 w-4 md:h-7 md:w-7"/>Info</button>
+                <button className="btnBanner bg-[gray]/70"
+                onClick={() => {
+                    setCurrentMovie(movie)
+                    setShowModal(true)
+                }}><HiOutlineInformationCircle className="h-4 w-4 md:h-7 md:w-7"/>Info</button>
             </div>
         </div>
     )
